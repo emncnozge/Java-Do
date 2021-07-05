@@ -1,0 +1,75 @@
+.rainbow-text{
+    background: #FFFFFF;
+    background-color: #FFFFFF;
+    background: conic-gradient(
+        #4aa96c 16.666%, 
+        #4aa96c 16.666%, 
+        #FFFFFF 33.333%, 
+        #4aa96c 33.333%, 
+        #FFFFFF 50%, 
+        #FFFFFF 50%, 
+        #4aa96c 66.666%, 
+        #FFFFFF 66.666%, 
+        #FFFFFF 83.333%, 
+        #4aa96c 83.333%);
+    background-size: 57%;
+    background-repeat: repeat;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; 
+    animation: rainbow-text-animation-rev 100s ease forwards;
+}
+
+.rainbow-btn {
+    background: #FFFFFF;
+    background-color: #FFFFFF;
+    background: conic-gradient(
+        #4aa96c 16.666%, 
+        #4aa96c 16.666%, 
+        #4aa96c 33.333%, 
+        #4aa96c 33.333%, 
+        #FFFFFF 50%, 
+        #FFFFFF 50%, 
+        #4aa96c 66.666%, 
+        #4aa96c 66.666%, 
+        #FFFFFF 83.333%, 
+        #4aa96c 83.333%);
+    background-size: 57%;
+    background-repeat: repeat;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; 
+    animation: rainbow-text-animation-rev 15s ease forwards;
+}
+
+.rainbow-btn:hover {
+    animation: rainbow-text-animation 5s ease forwards;
+}
+
+@keyframes rainbow-text-animation {
+    0% {
+        background-size: 57%;
+        background-position: 0 0;
+    }
+    20% {
+        background-size: 57%;
+        background-position: 0 1em;
+    }
+    100% {
+        background-size: 300%;
+        background-position: -9em 1em;
+    }
+}
+
+@keyframes rainbow-text-animation-rev {
+    0% {
+        background-size: 300%;
+        background-position: -9em 1em;
+    }
+    20% {
+        background-size: 57%;
+        background-position: 0 1em;
+    }
+    100% {
+        background-size: 57%;
+        background-position: 0 0;
+    }
+}

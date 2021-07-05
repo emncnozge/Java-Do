@@ -1,0 +1,11 @@
+**/nbproject/private/
+**/nbproject/Makefile-*.mk
+**/nbproject/Package-*.bash
+derby.log
+derby.properties
+build/
+nbbuild/
+dist/
+Java-Do/
+nbdist/
+.nb-gradle/

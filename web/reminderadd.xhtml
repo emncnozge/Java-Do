@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <h:head>
+        <title>Java-Do | Hatırlatıcı Ekle</title>
+        <link href='resources/css/bootstrap.min.css' rel='stylesheet' type='text/css'/>
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans"/>
+        <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/> 
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Montserrat"/>        
+        <link rel="stylesheet" href="resources/css/buttons.css"/>
+        <link rel="stylesheet" href="resources/css/javado.css"/>
+
+
+        <f:metadata>
+            <f:viewParam name="check" value="#{userBean.userID}"/>
+            <f:viewAction action="#{userBean.control()}"/>
+        </f:metadata>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+    </h:head>
+    
+    <h:body>
+        <div class="container" style="display:flex;width: 100vw;height:100vh">
+            <div class="side shadow-lg" style="text-align: center">
+                <a href="anasayfa.xhtml" style="text-decoration:none">
+                    <div class="logo rainbow-btn" style="margin-bottom:10px;margin-top:20px;">
+                        Java-Do
+                    </div>
+                </a>
+                <br/>
+                <div class="d-grid gap-2">
+                    <h:button class="btn btn2 btn-success rounded-pill" value="Not defterlerim" outcome="notebooks">
+                    </h:button>
+                </div>
+                <div class="d-grid gap-2">
+                    <h:button class="btn btn2 btn-success rounded-pill" value="Notlarım" outcome="notes">
+                    </h:button>
+                </div>
+                <div class="d-grid gap-2">
+                    <h:button class="btn btn2 btn-success rounded-pill" value="Hatırlatıcılarım" outcome="reminders">
+                    </h:button>
+                </div>
+                <div class="d-grid gap-2">
+                    <h:button class="btn btn2 btn-success rounded-pill" value="Etiketlerim" outcome="tags">
+                    </h:button>
+                </div>
+                <hr style="border:1px"/>
+                <p class="text-muted justify-content-center d-flex align-items-center" style="text-align: start;font-size: max(10pt, 1vw);"><i class="fa fa-tags" aria-hidden="true"></i>&nbsp;Etiketler&nbsp;&nbsp;</p>
+                <hr style="border:1px"/>
+                <ui:repeat var="x" varStatus="loop" value="#{tagsBean.getTagIDs(userBean.userID)}">
+                    #{tagsBean.getTag(userBean.userID, tagsBean.getTagIDs(userBean.userID)[loop.index],false)}
+                    <h:form>
+                        <div class="d-grid gap-2 justify-content-end" style="margin-right: 10px">
+                            <h:commandLink class="btn btn-dark fa fa-tag" style="color:#4aa96c;width:12vw;min-width:11vw;max-width:12vw;text-align: start" action="#{tagsBean.redirect(tagsBean.getTagIDs(userBean.userID)[loop.index])}">&nbsp;&nbsp;
+                                <span style="font-size:max(0.9vw,9pt);">#{tagsBean.tagName}</span>
+                            </h:commandLink><br/>
+                        </div>
+                    </h:form>
+                </ui:repeat>
+            </div>
+            <div class="cont">
+                <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-lg">
+                    <div class="container-fluid justify-content-end">
+                        <a class="d-sm-block d-md-none rainbow-btn my-auto" style="font-size:20pt;position: absolute;bottom:0;left:50%;margin-left: -53.75px !important;" href="anasayfa.xhtml">Java-Do</a>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+                                <li class="nav-item" style="margin-bottom:5px;margin-right:5px">
+                                    <a class="nav-link rounded" style="color:white" aria-current="page" href="anasayfa.xhtml">Ana Sayfa</a></li>
+
+                                <li class="nav-item" style="margin-bottom:5px;margin-right:5px;">
+                                    <a class="nav-link rounded" style="color:white" href="profile.xhtml">Profil</a>
+                                </li>
+
+                                <li class="nav-item dropdown">
+                                    <button class="nav-link rounded" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" style="border:0;background:#212529;color:white" aria-expanded="false">
+                                        Çöp Kutusu
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="background:#212529;color:white">
+                                        <li><a class="dropdown-item" style="color:white" href="deletednotebooks.xhtml">Not defterleri</a></li>
+                                        <li><a class="dropdown-item" style="color:white" href="deletednotes.xhtml">Notlar</a></li>
+                                        <li><a class="dropdown-item" style="color:white" href="deletedreminders.xhtml">Hatırlatıcılar</a></li>
+                                        <li><a class="dropdown-item" style="color:white" href="deletedtags.xhtml">Etiketler</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item" style="margin-bottom:5px;margin-right:5px">
+                                    <a class="nav-link rounded" style="color:white" aria-current="page" href="about.xhtml">Hakkımızda</a></li>
+                            </ul>
+                            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                                <h:form class="d-flex form-group" style="margin-right:20px;height:50%;margin-left:20px;">
+                                    <h:inputText lang="tr" class="form-control shadow-none" style="border:0;color:white;background: #202020;margin:0!important;margin-right:-8px!important" p:placeholder="Not ara" value="#{noteBean.search}"></h:inputText>
+                                    <h:commandLink class="btn btn-secondary fa fa-search fa-2x align-self-center justify-content-center" style="margin:0;color:#198754" action="search.xhtml?faces-redirect=true"></h:commandLink>
+                                </h:form>
+                                <li class="nav-item" style="margin-right: 20px;justify-content: flex-end">
+                                    <h:form> 
+                                        <h:commandLink class="nav-link rounded" style="color:#DC3545;font-size: 1.2rem;" action="#{userBean.logout()}"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;Çıkış Yap</h:commandLink>
+                                    </h:form>
+                                </li>
+                            </ul>
+
+                        </div>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </div>
+                </nav> 
+                <br/><br/>
+                <div style="margin:1rem;">
+                    <div class="card" style="width: 100%;background:#212529">
+                        <div class="card-body" style="color:white;">
+                            <h:form>
+                                <br/><br/>
+                                Hatırlatıcı adı: <h:inputText lang="tr" id="name" required="true" requiredMessage="Hatırlatıcı adı boş bırakılamaz." p:placeholder="Hatırlatıcı adı"  p:title="Hatırlatıcı adı giriniz." class="form-control form-control-lg inputs" style="background-color:#202020;color:white;" autocomplete="off" value="#{remindersBean.reminderName}">
+                                </h:inputText>
+                                <br/>
+                                Hatırlatıcı tarihi: <h:inputText id="date" required="true" requiredMessage="Hatırlatıcı tarihi boş bırakılamaz." p:placeholder="Hatırlatıcı tarihi"  p:title="Hatırlatıcı tarihi giriniz." class="form-control form-control-lg inputs" style="background-color:#202020;color:white;" autocomplete="off" value="#{remindersBean.reminderDate}" validatorMessage="Hatırlatıcı tarihi uygun formatta değil. (GG.AA.YYYY)">
+                                    <f:validateRegex pattern="^\s*(3[01]|[12][0-9]|0[1-9])\.(1[012]|0[1-9])\.((?:20|21)\d{2})\s*$" />
+                                </h:inputText>
+                                <br/>
+                                Hatırlatıcı içeriği: <h:inputText lang="tr" id="content" required="true" requiredMessage="Hatırlatıcı içeriği boş bırakılamaz." p:placeholder="Hatırlatıcı içeriği"  p:title="Hatırlatıcı içeriği giriniz." class="form-control form-control-lg inputs" style="background-color:#202020;color:white;" value="#{remindersBean.reminderContent}"></h:inputText>
+                                <br/>
+                                Hatırlatıcı rengi: <h:selectOneMenu p:required="required" value="#{remindersBean.reminderColor}" styleClass="form-select" style="color:white;background: #202020">
+                                    <f:selectItem itemValue="#b82837" itemLabel="Kırmızı"/>
+                                    <f:selectItem itemValue="#1485b5" itemLabel="Mavi"/>
+                                    <f:selectItem itemValue="#0c963f" itemLabel="Yeşil"/>
+                                    <f:selectItem itemValue="#c9bf02" itemLabel="Sarı"/>
+                                </h:selectOneMenu>
+                                <div style="float:right">
+                                    <h:commandLink class="btn-success rounded fa fa-floppy-o" style="margin:10px;padding:10px;text-decoration: none;font-size:larger" action="#{remindersBean.addReminder(userBean.userID)}"><span>&nbsp;Hatırlatıcıyı ekle</span>
+                                    </h:commandLink>
+                                    <h:link class="btn-secondary rounded fa fa-ban" style="margin:10px;padding:10px;text-decoration: none;font-size:larger" outcome="reminders"><span>&nbsp;İptal Et</span></h:link>
+                                </div>
+                            </h:form>
+                        </div>
+                    </div>
+                    <div style="display: flex; flex-direction: column">
+                        <br/>
+                        <h:message for="name" class="alert alert-danger"></h:message>
+                        <h:message for="date" class="alert alert-danger"></h:message>
+                        <h:message for="content" class="alert alert-danger"></h:message>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mbnavbar" style="display: flex;width:100%; justify-content: space-between;" >
+            <h:form class="mbform" style="width:100%; justify-content: space-between;">
+                <h:commandLink class="btn btn-outline-success rounded fa fa-book fa-2x col-2 d-flex align-items-center justify-content-center" action="notebooks.xhtml?faces-redirect=true"></h:commandLink>
+                <h:commandLink class="btn btn-outline-success rounded fa fa-sticky-note fa-2x col-2 d-flex align-items-center justify-content-center" action="notes.xhtml?faces-redirect=true"></h:commandLink>
+                <h:commandLink class="btn btn-outline-success rounded fa fa-bell fa-2x col-2 d-flex align-items-center justify-content-center" action="reminders.xhtml?faces-redirect=true"></h:commandLink>
+                <h:commandLink class="btn btn-outline-success rounded fa fa-tags fa-2x col-2 d-flex align-items-center justify-content-center" action="tags.xhtml?faces-redirect=true"></h:commandLink>
+                <button id="dropdownMenuButton1" class="btn btn-outline-success col-2 d-flex align-items-center justify-content-center fa fa-tag fa-2x clr" data-bs-toggle="dropdown" aria-expanded="false">
+                </button>
+                <ul class="dropdown-menu" style="background:#212529;color:white" aria-labelledby="dropdownMenuButton1">
+                    <ui:repeat var="x" varStatus="loop" value="#{tagsBean.getTagIDs(userBean.userID)}">
+                        #{tagsBean.getTag(userBean.userID, tagsBean.getTagIDs(userBean.userID)[loop.index],false)}
+                        <li>
+                            <h:commandLink class="dropdown-item fa fa-tag" style="text-align: center;color:white" action="#{tagsBean.redirect(tagsBean.getTagIDs(userBean.userID)[loop.index])}">
+                                <span style="font-size:12pt;color:white">#{tagsBean.tagName}</span>
+                            </h:commandLink>
+                        </li>
+                        <hr></hr>
+                    </ui:repeat>
+                    <c:if class=" dropdown-item" test="#{tagsBean.getTagIDs(userBean.userID).size() == 0}" ><li style="color:white;text-align: center">Etiket yok.</li> </c:if>
+                </ul>
+            </h:form>
+        </div>
+        <script src="resources/js/bootstrap.bundle.min.js"/>
+    </h:body>
+</html>
+

@@ -1,0 +1,353 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+
+    <h:head>
+        <title>Java-Do | #{noteBean.noteName}</title>
+        <link href='resources/css/bootstrap.min.css' rel='stylesheet' type='text/css'/>
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans"/>
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Montserrat"/>
+        <link rel="stylesheet" href="resources/css/buttons.css"/>
+        <link rel="stylesheet" href="resources/css/javado.css"/>
+
+        <f:metadata>
+            <f:viewParam name="check" value="#{userBean.userID}"/>
+            <f:viewAction action="#{userBean.control()}"/>
+        </f:metadata>
+        <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+    </h:head>
+    <style>
+        .cd-popup {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            background-color: rgba(46, 49, 49, 0.9);
+            opacity: 0;
+            visibility: hidden;
+            -webkit-transition: opacity 0.3s 0s, visibility 0s 0.3s;
+            -moz-transition: opacity 0.3s 0s, visibility 0s 0.3s;
+            transition: opacity 0.3s 0s, visibility 0s 0.3s;
+            z-index: 1;
+        }
+        .cd-popup.is-visible {
+            opacity: 1;
+            visibility: visible;
+            -webkit-transition: opacity 0.3s 0s, visibility 0s 0s;
+            -moz-transition: opacity 0.3s 0s, visibility 0s 0s;
+            transition: opacity 0.3s 0s, visibility 0s 0s;
+        }
+
+        .cd-popup-container {
+            position: relative;
+            width: 90%;
+            max-width: 400px;
+            margin: 4em auto;
+            color:white;
+            background: #202020;
+            border-radius: .25em .25em .4em .4em;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            -webkit-transform: translateY(-40px);
+            -moz-transform: translateY(-40px);
+            -ms-transform: translateY(-40px);
+            -o-transform: translateY(-40px);
+            transform: translateY(-40px);
+            
+            -webkit-backface-visibility: hidden;
+            -webkit-transition-property: -webkit-transform;
+            -moz-transition-property: -moz-transform;
+            transition-property: transform;
+            -webkit-transition-duration: 0.3s;
+            -moz-transition-duration: 0.3s;
+            transition-duration: 0.3s;
+        }
+        .cd-popup-container p {
+            padding: 3em 1em;
+        }
+        .cd-popup-container .cd-buttons:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        .cd-popup-container .cd-buttons li {
+            float: left;
+            width: 50%;
+            list-style: none;
+        }
+        .cd-popup-container .cd-buttons a {
+            display: block;
+            height: 60px;
+            line-height: 60px;
+            text-transform: uppercase;
+            color: #FFF;
+            -webkit-transition: background-color 0.2s;
+            -moz-transition: background-color 0.2s;
+            transition: background-color 0.2s;
+        }
+        .cd-popup-container .cd-buttons li:first-child a {
+            background: #198754;
+            border-radius: 0 0 0 .25em;
+        }
+        .no-touch .cd-popup-container .cd-buttons li:first-child a:hover {
+            background-color: #157347;
+        }
+        .cd-popup-container .cd-buttons li:last-child a {
+            background: #DC3545;
+            border-radius: 0 0 .25em 0;
+        }
+        .no-touch .cd-popup-container .cd-buttons li:last-child a:hover {
+            background-color: #BB2D3B;
+        }
+        .cd-popup-container .cd-popup-close {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 30px;
+            height: 30px;
+        }
+        .cd-popup-container .cd-popup-close::before, .cd-popup-container .cd-popup-close::after {
+            content: '';
+            position: absolute;
+            top: 12px;
+            width: 14px;
+            height: 3px;
+            background-color: #8f9cb5;
+        }
+        .cd-popup-container .cd-popup-close::before {
+            -webkit-transform: rotate(45deg);
+            -moz-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            -o-transform: rotate(45deg);
+            transform: rotate(45deg);
+            left: 8px;
+        }
+        .cd-popup-container .cd-popup-close::after {
+            -webkit-transform: rotate(-45deg);
+            -moz-transform: rotate(-45deg);
+            -ms-transform: rotate(-45deg);
+            -o-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+            right: 8px;
+        }
+        .is-visible .cd-popup-container {
+            -webkit-transform: translateY(0);
+            -moz-transform: translateY(0);
+            -ms-transform: translateY(0);
+            -o-transform: translateY(0);
+            transform: translateY(0);
+        }
+        @media only screen and (min-width: 1170px) {
+            .cd-popup-container {
+                margin: 8em auto;
+            }
+        }
+    </style>
+
+    <h:body style="background-color:#202020">
+
+        <div class="container" style="display:flex;width: 100vw;height:100vh">
+
+            <div class="side shadow-lg" style="text-align: center">
+                <a href="anasayfa.xhtml" style="text-decoration:none">
+                    <div class="logo rainbow-btn" style="margin-bottom:10px;margin-top:20px;">
+                        Java-Do
+                    </div>
+                </a>
+                <br/>
+                <div class="d-grid gap-2">
+                    <h:button class="btn btn2 btn-success rounded-pill" value="Not defterlerim" outcome="notebooks">
+                    </h:button>
+                </div>
+                <div class="d-grid gap-2">
+                    <h:button class="btn btn2 btn-success rounded-pill" value="Notlarım" outcome="notes">
+                    </h:button>
+                </div>
+                <div class="d-grid gap-2">
+                    <h:button class="btn btn2 btn-success rounded-pill" value="Hatırlatıcılarım" outcome="reminders">
+                    </h:button>
+                </div>
+                <div class="d-grid gap-2">
+                    <h:button class="btn btn2 btn-success rounded-pill" value="Etiketlerim" outcome="tags">
+                    </h:button>
+                </div>
+                <hr style="border:1px"/>
+                <p class="text-muted justify-content-center d-flex align-items-center" style="text-align: start;font-size: max(10pt, 1vw);"><i class="fa fa-tags" aria-hidden="true"></i>&nbsp;Etiketler&nbsp;&nbsp;</p>
+                <hr style="border:1px"/>
+
+                <ui:repeat var="x" varStatus="loop" value="#{tagsBean.getTagIDs(userBean.userID)}">
+                    #{tagsBean.getTag(userBean.userID, tagsBean.getTagIDs(userBean.userID)[loop.index],false)}
+                    <h:form>
+                        <div class="d-grid gap-2 justify-content-end" style="margin-right: 10px">
+                            <h:commandLink class="btn btn-dark fa fa-tag" style="color:#4aa96c;width:12vw;min-width:11vw;max-width:12vw;text-align: start" action="#{tagsBean.redirect(tagsBean.getTagIDs(userBean.userID)[loop.index])}">&nbsp;&nbsp;
+                                <span style="font-size:max(0.9vw,9pt);">#{tagsBean.tagName}</span>
+                            </h:commandLink><br/>
+                        </div>
+                    </h:form>
+                </ui:repeat>
+            </div>
+            <div class="cont">
+                <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-lg">
+                    <div class="container-fluid justify-content-end">
+                        <a class="d-sm-block d-md-none rainbow-btn my-auto" style="font-size:20pt;position: absolute;bottom:0;left:50%;margin-left: -53.75px !important;" href="anasayfa.xhtml">Java-Do</a>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+                                <li class="nav-item" style="margin-bottom:5px;margin-right:5px">
+                                    <a class="nav-link rounded" style="color:white" aria-current="page" href="anasayfa.xhtml">Ana Sayfa</a></li>
+
+                                <li class="nav-item" style="margin-bottom:5px;margin-right:5px;">
+                                    <a class="nav-link rounded" style="color:white" href="profile.xhtml">Profil</a>
+                                </li>
+
+                                <li class="nav-item dropdown">
+                                    <button class="nav-link rounded" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" style="border:0;background:#212529;color:white" aria-expanded="false">
+                                        Çöp Kutusu
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="background:#212529;color:white">
+                                        <li><a class="dropdown-item" style="color:white" href="deletednotebooks.xhtml">Not defterleri</a></li>
+                                        <li><a class="dropdown-item" style="color:white" href="deletednotes.xhtml">Notlar</a></li>
+                                        <li><a class="dropdown-item" style="color:white" href="deletedreminders.xhtml">Hatırlatıcılar</a></li>
+                                        <li><a class="dropdown-item" style="color:white" href="deletedtags.xhtml">Etiketler</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item" style="margin-bottom:5px;margin-right:5px">
+                                    <a class="nav-link rounded" style="color:white" aria-current="page" href="about.xhtml">Hakkımızda</a></li>
+                            </ul>
+                            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                                <h:form class="d-flex form-group" style="margin-right:20px;height:50%;margin-left:20px;">
+                                    <h:inputText lang="tr" class="form-control shadow-none" style="border:0;color:white;background: #202020;margin:0!important;margin-right:-8px!important" p:placeholder="Not ara" value="#{noteBean.search}"></h:inputText>
+                                    <h:commandLink class="btn btn-secondary fa fa-search fa-2x align-self-center justify-content-center" style="margin:0;color:#198754" action="search.xhtml?faces-redirect=true"></h:commandLink>
+                                </h:form>
+                                <li class="nav-item" style="margin-right: 20px;justify-content: flex-end">
+                                    <h:form> 
+                                        <h:commandLink class="nav-link rounded" style="color:#DC3545;font-size: 1.2rem;" action="#{userBean.logout()}"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;Çıkış Yap</h:commandLink>
+                                    </h:form>
+                                </li>
+                            </ul>
+
+                        </div>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </div>
+                </nav>
+                <div class="cd-popup" style="padding:0" role="alert">
+                    <div class="cd-popup-container" style="padding:0">
+                        <p>"#{noteBean.noteName}" notunu silmek istediğine emin misin?</p>
+                        <ul class="cd-buttons" style="padding:0">
+                            <li>
+                                <h:form>
+                                    <h:commandLink action="notes.xhtml?faces-redirect=true" style="text-decoration: none">
+                                        Evet
+                                        <f:actionListener binding="#{noteBean.deleteNote(noteBean.noteID)}"></f:actionListener>
+                                    </h:commandLink> 
+                                </h:form>
+                            </li>
+                            <li><a class="hayirClose" style="text-decoration: none" href="#0">Hayır</a></li>
+                        </ul>
+                        <a href="#0" class="cd-popup-close img-replace"></a>
+                    </div> 
+                </div>
+
+                <div style="margin:50px">
+                    <div class="card" style="color:white;background-color:#EBD54E;border:0;height:80%">
+                        <img src="resources/img/editnote.png" style="width:100%;background-color:#202020;border:0px"/>
+                        <div class="card-body" style="color:black;font-weight: bolder">
+                            <h:form>
+                                Not adı: <h:inputText lang="tr" id="name" required="true" requiredMessage="Not adı boş bırakılamaz." class="form-control" style="margin-top:10px;background-color: #202020;color:white;font-family: 'Montserrat';" value="#{noteBean.noteName}"></h:inputText><br/>
+                                Not başlığı: <h:inputText lang="tr" id="title" required="true" requiredMessage="Not başlığı boş bırakılamaz." class="form-control" style="margin-top:10px;background-color: #202020;color:white;font-family: 'Montserrat';" value="#{noteBean.title}"></h:inputText>
+                                <br/><h:inputTextarea lang="tr" id="content" required="true" requiredMessage="Not içeriği boş bırakılamaz." class="form-control" style="margin-top:5px;background-color: #202020;color:white;width: 100%;height: 30vh" value="#{noteBean.notecontent}"></h:inputTextarea>
+                                Etiketler: <br/>
+                                <h:selectManyListbox value="#{noteBean.tags}" size="5" style="background:#202020;color:white">
+                                    <c:forEach items="#{tagsBean.getTagIDs(userBean.userID)}" var="a" varStatus="loop">
+                                        <f:selectItem itemValue="#{tagsBean.getTagIDs(userBean.userID)[loop.index]}" itemLabel="#{noteBean.tagName(tagsBean.getTagIDs(userBean.userID)[loop.index])}"/>
+                                    </c:forEach>
+                                </h:selectManyListbox>
+                                <div class="form-floating">
+                                    <div style="float:left">
+                                        <p style="font-size:larger;vertical-align: middle;padding-top:10px">Not defteri: #{noteBean.getNotebookName(noteBean.noteID)}</p>
+                                    </div>
+                                    <div style="float:right">
+                                        <h:commandLink class="btn-success rounded fa fa-floppy-o" style="margin:10px;padding:10px;text-decoration: none;font-size:larger" action="#{noteBean.updateNote(noteBean.noteID)}"><span>&nbsp;Kaydet</span>
+                                        </h:commandLink>
+                                        <h:link class="btn-secondary rounded fa fa-ban" style="margin:10px;padding:10px;text-decoration: none;font-size:larger" outcome="notebook" ><span>&nbsp;İptal Et</span></h:link>
+                                    </div>
+                                </div>
+                            </h:form>
+                        </div>
+                    </div>
+                    <div style="display: flex; flex-direction: column">
+                        <br/>
+                        <h:message for="name" class="alert alert-danger" ></h:message>
+                        <h:message for="title" class="alert alert-danger" ></h:message>
+                        <h:message for="content" class="alert alert-danger"></h:message>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="mbnavbar" style="display: flex;width:100%; justify-content: space-between;" >
+            <h:form class="mbform" style="width:100%; justify-content: space-between;">
+                <h:commandLink class="btn btn-outline-success rounded fa fa-book fa-2x col-2 d-flex align-items-center justify-content-center" action="notebooks.xhtml?faces-redirect=true"></h:commandLink>
+                <h:commandLink class="btn btn-outline-success rounded fa fa-sticky-note fa-2x col-2 d-flex align-items-center justify-content-center" action="notes.xhtml?faces-redirect=true"></h:commandLink>
+                <h:commandLink class="btn btn-outline-success rounded fa fa-bell fa-2x col-2 d-flex align-items-center justify-content-center" action="reminders.xhtml?faces-redirect=true"></h:commandLink>
+                <h:commandLink class="btn btn-outline-success rounded fa fa-tags fa-2x col-2 d-flex align-items-center justify-content-center" action="tags.xhtml?faces-redirect=true"></h:commandLink>
+                <button id="dropdownMenuButton1" class="btn btn-outline-success col-2 d-flex align-items-center justify-content-center fa fa-tag fa-2x clr" data-bs-toggle="dropdown" aria-expanded="false">
+                </button>
+                <ul class="dropdown-menu" style="background:#212529;color:white" aria-labelledby="dropdownMenuButton1">
+                    <ui:repeat var="x" varStatus="loop" value="#{tagsBean.getTagIDs(userBean.userID)}">
+                        #{tagsBean.getTag(userBean.userID, tagsBean.getTagIDs(userBean.userID)[loop.index],false)}
+                        <li>
+                            <h:commandLink class="dropdown-item fa fa-tag" style="text-align: center;color:white" action="#{tagsBean.redirect(tagsBean.getTagIDs(userBean.userID)[loop.index])}">
+                                <span style="font-size:12pt;color:white">#{tagsBean.tagName}</span>
+                            </h:commandLink>
+                        </li>
+                        <hr></hr>
+                    </ui:repeat>
+                    <c:if class=" dropdown-item" test="#{tagsBean.getTagIDs(userBean.userID).size() == 0}" ><li style="color:white;text-align: center">Etiket yok.</li> </c:if>
+                </ul>
+            </h:form>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+                integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+        <script>
+            jQuery(document).ready(function ($) {
+                //open popup
+                $('.cd-popup-trigger').on('click', function (event) {
+                    event.preventDefault();
+                    $('.cd-popup').addClass('is-visible');
+                });
+
+                //close popup
+                $('.cd-popup').on('click', function (event) {
+                    if ($(event.target).is('.cd-popup-close') || $(event.target).is('.cd-popup')) {
+                        event.preventDefault();
+                        $(this).removeClass('is-visible');
+                    }
+                    if ($(event.target).is('.hayirClose') || $(event.target).is('.cd-popup')) {
+                        event.preventDefault();
+                        $(this).removeClass('is-visible');
+                    }
+                });
+                //close popup when clicking the esc keyboard button
+                $(document).keyup(function (event) {
+                    if (event.which == '27') {
+                        $('.cd-popup').removeClass('is-visible');
+                    }
+                }
+                );
+            }
+            );
+        </script>
+        <script src="resources/js/bootstrap.bundle.min.js"/>
+    </h:body>
+</html>
+

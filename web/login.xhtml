@@ -1,0 +1,274 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Java-Do | Giriş Yap</title>
+        <link href='resources/css/bootstrap.min.css' rel='stylesheet' type='text/css'/>
+        <link rel="stylesheet" href="resources/css/login.css"></link>
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Montserrat"/>
+        <f:metadata>
+            <f:viewParam name="check" value="#{userBean.userID}"/>
+            <f:viewAction action="#{userBean.loginControl()}"/>
+        </f:metadata>
+
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+
+    </h:head>
+    <style>
+        .cd-popup {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            background-color: rgba(46, 49, 49, 0.9);
+            opacity: 0;
+            visibility: hidden;
+            -webkit-transition: opacity 0.3s 0s, visibility 0s 0.3s;
+            -moz-transition: opacity 0.3s 0s, visibility 0s 0.3s;
+            transition: opacity 0.3s 0s, visibility 0s 0.3s;
+            z-index: 1;
+        }
+        .cd-popup.is-visible {
+            opacity: 1;
+            visibility: visible;
+            -webkit-transition: opacity 0.3s 0s, visibility 0s 0s;
+            -moz-transition: opacity 0.3s 0s, visibility 0s 0s;
+            transition: opacity 0.3s 0s, visibility 0s 0s;
+        }
+
+        .cd-popup-container {
+            position: relative;
+            width: 90%;
+            max-width: 400px;
+            margin: 4em auto;
+            color:white;
+            background: #202020;
+            border-radius: .25em .25em .4em .4em;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            -webkit-transform: translateY(-40px);
+            -moz-transform: translateY(-40px);
+            -ms-transform: translateY(-40px);
+            -o-transform: translateY(-40px);
+            transform: translateY(-40px);
+            
+            -webkit-backface-visibility: hidden;
+            -webkit-transition-property: -webkit-transform;
+            -moz-transition-property: -moz-transform;
+            transition-property: transform;
+            -webkit-transition-duration: 0.3s;
+            -moz-transition-duration: 0.3s;
+            transition-duration: 0.3s;
+        }
+        .cd-popup-container p {
+            padding: 3em 1em;
+        }
+        .cd-popup-container .cd-buttons:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        .cd-popup-container .cd-buttons li {
+            float: left;
+            width: 50%;
+            list-style: none;
+        }
+        .cd-popup-container .cd-buttons a {
+            display: block;
+            height: 60px;
+            line-height: 60px;
+            text-transform: uppercase;
+            color: #FFF;
+            -webkit-transition: background-color 0.2s;
+            -moz-transition: background-color 0.2s;
+            transition: background-color 0.2s;
+        }
+        .cd-popup-container .cd-buttons li:first-child a {
+            background: #198754;
+            border-radius: 0 0 0 .25em;
+        }
+        .no-touch .cd-popup-container .cd-buttons li:first-child a:hover {
+            background-color: #157347;
+        }
+        .cd-popup-container .cd-buttons li:last-child a {
+            background: #DC3545;
+            border-radius: 0 0 .25em 0;
+        }
+        .no-touch .cd-popup-container .cd-buttons li:last-child a:hover {
+            background-color: #BB2D3B;
+        }
+        .cd-popup-container .cd-popup-close {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 30px;
+            height: 30px;
+        }
+        .cd-popup-container .cd-popup-close::before, .cd-popup-container .cd-popup-close::after {
+            content: '';
+            position: absolute;
+            top: 12px;
+            width: 14px;
+            height: 3px;
+            background-color: #8f9cb5;
+        }
+        .cd-popup-container .cd-popup-close::before {
+            -webkit-transform: rotate(45deg);
+            -moz-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            -o-transform: rotate(45deg);
+            transform: rotate(45deg);
+            left: 8px;
+        }
+        .cd-popup-container .cd-popup-close::after {
+            -webkit-transform: rotate(-45deg);
+            -moz-transform: rotate(-45deg);
+            -ms-transform: rotate(-45deg);
+            -o-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+            right: 8px;
+        }
+        .is-visible .cd-popup-container {
+            -webkit-transform: translateY(0);
+            -moz-transform: translateY(0);
+            -ms-transform: translateY(0);
+            -o-transform: translateY(0);
+            transform: translateY(0);
+        }
+        @media only screen and (min-width: 1170px) {
+            .cd-popup-container {
+                margin: 8em auto;
+            }
+        }
+        .forgot{
+            cursor: pointer
+        }
+    </style>
+    <h:body class="h-auto w-auto d-flex justify-content-center align-items-center" style="min-height: 100vh;min-width: 100vw">
+        <div class="justify-content-center align-content-center">
+            <div class="card shadow-lg d-flex justify-content-center align-content-center" >
+                <div class="d-flex justify-content-center align-content-center" style="height:100%">
+                    <div class="card-body justify-content-center align-content-center" style="height:100%">
+                        <div class="logo" style="margin-bottom:10%;margin:10px;font-weight: bolder">
+                            &nbsp;&nbsp;Java-Do | Giriş Yap
+                            <br></br>
+                            <ion-icon color="primary" name="lock-closed-outline"></ion-icon>
+                        </div>
+                        <div class="container d-flex justify-content-center align-content-center">
+                            <div class="row justify-content-center">
+                                <div class="d-none d-lg-flex col-lg-5 justify-content-center align-items-center"> <img src="resources/img/notes.png" alt="logo" style="width:80%" class="img-fluid"></img></div>
+                                <div class="d-none d-lg-flex col-lg-1 justify-content-center" >
+                                    <div style="min-height:100%;border-radius: 50%;border:2px solid #658cb5;width:4%"></div>
+                                </div>
+                                <div class="col-12 col-lg-5 p-0 d-flex justify-content-center align-items-center">
+                                    <h:form style="min-width:80%;max-width:100%">
+                                        <h:inputText p:required="required"  id="mail" p:placeholder="E-posta"  p:title="E-posta adresinizi giriniz." class="form-control form-control-lg inputs" autocomplete="off" value="#{userBean.email}" validatorMessage="E-posta adresi uygun formatta değil.">
+                                            <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" /> </h:inputText>
+                                        <br/> 
+                                        <h:inputSecret p:required="required" p:placeholder="Şifre"  p:title="Şifrenizi giriniz." class="form-control form-control-lg inputs" autocomplete="off" value="#{userBean.password}"/><br/>  
+
+                                        <c:if test="#{userBean.success eq 0}">
+                                            #{userBean.setSuccess(3)}
+                                            <div class="alert alert-danger" style="text-align:center;padding:0px; font-size: 14px;margin:0;" role="alert">
+                                                Hatalı giriş yapıldı!
+                                            </div>
+                                        </c:if>
+                                        <c:if test="#{userBean.success eq 2}">
+                                            #{userBean.setSuccess(3)}
+                                            <div class="alert alert-primary" style="text-align:center;padding:0px; font-size: 14px;margin:0;" role="alert">
+                                                Kayıt başarıyla yapıldı!
+                                            </div>
+                                        </c:if>
+                                        <h:commandButton style="float:right" class="btn btn-primary" id="loginBtn" value="Giriş Yap" action="#{userBean.login()}"></h:commandButton>
+                                        <br></br><br></br>
+                                        <a class="link-secondary forgot cd-popup-trigger" style="text-decoration:none;font-size:12px;float:right"> Şifrenizi mi unuttunuz?</a>
+                                    </h:form>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center align-content-center">
+                            <h:form>
+                                <h:commandLink class="link-info d-flex justify-content-center align-items-center" action="register.xhtml?faces-redirect=true" style="margin-top: 5%;text-decoration:none;color:#0072EC;font-weight: bold;"> Kayıtlı değil misiniz? Kayıt olun.</h:commandLink>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </div>   
+            <div class="d-flex justify-content-center align-items-center">
+                <h:message for="mail" class="alert alert-danger" style = "margin-top:30px;padding:5px" />
+                <h:messages class="alert alert-danger" style = "margin-top:30px;padding:5px" />
+            </div>
+        </div>
+
+        <div class="cd-popup" style="padding:0" role="alert">
+            <div class="cd-popup-container" style="padding:0">
+
+                <span style="font-size: 1.3rem"><br/><br/>Şifrenizi mi unuttunuz?<br/><br/><br/></span>
+                <h:form>
+                    Ad <h:inputText class="form-control mx-auto" style="width:80%;margin-top:10px;background-color: #202020;color:white;font-family: 'Montserrat';" value="#{userBean.name}" autocomplete="off" p:placeholder="Adınızı giriniz." p:title="Adınızı giriniz."></h:inputText>
+                    <br/>
+                    Soyad <h:inputText class="form-control mx-auto" style="width:80%;margin-top:10px;background-color: #202020;color:white;font-family: 'Montserrat';" value="#{userBean.surname}" p:placeholder="Soyadınızı giriniz." p:title="Soyadınızı giriniz."></h:inputText>
+                    <br/>
+                    E-posta <h:inputText class="form-control mx-auto" style="width:80%;margin-top:10px;background-color: #202020;color:white;font-family: 'Montserrat';" value="#{userBean.email}" p:placeholder="E-posta adresinizi giriniz." p:title="E-posta adresinizi giriniz."></h:inputText>
+                    <br/>                    <br/>
+
+                    <ul class="cd-buttons" style="padding:0">
+                        <li>
+
+                            <h:commandLink action="#{userBean.forgotPassword()}" style="text-decoration: none">
+                                Sorgula
+                            </h:commandLink> 
+
+                        </li>
+
+                        <li><a class="hayirClose" style="text-decoration: none" href="#0">İptal</a></li>
+                    </ul>
+                </h:form>
+                <a href="#0" class="cd-popup-close img-replace"></a>
+            </div> 
+        </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+                integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+        <script>
+            jQuery(document).ready(function ($) {
+                //open popup
+                $('.cd-popup-trigger').on('click', function (event) {
+                    event.preventDefault();
+                    $('.cd-popup').addClass('is-visible');
+                });
+
+                //close popup
+                $('.cd-popup').on('click', function (event) {
+                    if ($(event.target).is('.cd-popup-close') || $(event.target).is('.cd-popup')) {
+                        event.preventDefault();
+                        $(this).removeClass('is-visible');
+                    }
+                    if ($(event.target).is('.hayirClose') || $(event.target).is('.cd-popup')) {
+                        event.preventDefault();
+                        $(this).removeClass('is-visible');
+                    }
+                });
+                //close popup when clicking the esc keyboard button
+                $(document).keyup(function (event) {
+                    if (event.which == '27') {
+                        $('.cd-popup').removeClass('is-visible');
+                    }
+                }
+                );
+            }
+            );
+        </script>
+        <script src="resources/js/bootstrap.bundle.min.js"/>
+        <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+    </h:body>
+</html>
+

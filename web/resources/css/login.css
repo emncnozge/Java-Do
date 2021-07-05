@@ -1,0 +1,59 @@
+*{
+    font-family: "Open Sans" 
+}
+.inputs{
+    font-size:18px;
+}
+.alert {
+    display:inline-block;
+}
+ion-icon {
+    margin-top:10px;
+    font-size: 60px;
+}
+@media (prefers-color-scheme: dark) {
+    body {
+        height:100vh;
+        background-image: url('../img/background-dark.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        backdrop-filter: blur(3px);
+    }
+    .card{
+        border-radius: 15%;
+        background-color:#15273B;
+        min-height:60vh;
+    }
+    .logo{
+        font-family:"Open Sans";
+        font-size:32px;
+        color:white;
+        text-align: center;
+    }
+    .forgot{
+        color: white;
+    }
+}
+@media (prefers-color-scheme: light) {
+    body {
+        height:100vh;
+        background-image: url('../img/background-light.png');
+        backdrop-filter: blur(3px);
+        background-repeat: no-repeat;
+        background-size:cover 
+    }
+    .card{
+        border-radius: 15%;
+        background-color:#fff;
+        min-height:60vh;
+    }
+    .logo{
+        font-family:"Open Sans";
+        font-size:32px;
+        color:black;
+        text-align: center;
+    }
+    .forgot{
+        color: black;
+    }
+}

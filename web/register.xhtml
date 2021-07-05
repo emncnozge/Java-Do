@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Java-Do | Kayıt Ol</title>
+        <link href='resources/css/bootstrap.min.css' rel='stylesheet' type='text/css'/>
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans"/>
+        <link rel="stylesheet" href="resources/css/register.css"></link>
+        <f:metadata>
+            <f:viewParam name="check" value="#{userBean.userID}"/>
+            <f:viewAction action="#{userBean.loginControl()}"/>
+        </f:metadata>
+        <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+
+
+    </h:head>
+
+    <h:body class="h-auto w-auto d-flex justify-content-center align-items-center" style="min-height: 100vh;min-width: 100vw">
+        <div class="justify-content-center align-content-center m-2" >
+            <div class="card p-2 p-lg-4 shadow-lg d-flex justify-content-center align-content-center">
+                <div class="d-flex justify-content-center align-content-center" >
+                    <div class="card-body p-2 justify-content-center align-content-center" >
+                        <div class="logo " style="margin-bottom:10%;margin:10px">
+                            <span style="font-weight:bolder">Java-Do | Kayıt Ol </span>
+                            <br></br>
+                            <ion-icon color="primary" name="lock-closed-outline"></ion-icon>
+                        </div>
+                        <div class="container d-flex justify-content-center">
+                            <div class="row d-flex justify-content-center">
+
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <h:form>
+                                        <h:inputText p:required="required" p:placeholder="Ad"  p:title="Adınızı giriniz." class="form-control form-control-lg inputs" autocomplete="off" value="#{userBean.name}"/><br/>  
+                                        <h:inputText p:required="required" p:placeholder="Soyad"  p:title="Soyadınızı giriniz." class="form-control form-control-lg inputs" autocomplete="off" value="#{userBean.surname}"/><br/>
+                                        <div class="input-group has-validation">
+                                            <span class="input-group-text" id="inputGroupPrepend3">@</span>
+                                            <h:inputText id="mail" p:required="required" p:placeholder="E-posta"  p:title="E-posta adresinizi giriniz." class="form-control form-control-lg inputs" autocomplete="off" value="#{userBean.email}" validatorMessage="E-posta adresi uygun formatta değil.">
+                                                <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" /> </h:inputText>
+                                        </div>
+
+                                        <br/> 
+                                        <div class="input-group has-validation">
+                                            <span class="input-group-text" id="inputGroupPrepend3"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                                            <h:inputText id="date" p:required="required" p:placeholder="Doğum tarihi"  p:title="Doğum tarihinizi giriniz." class="form-control form-control-lg inputs" autocomplete="off" value="#{userBean.borndate}" validatorMessage="Doğum tarihi uygun formatta değil. (GG.AA.YYYY)">
+                                                <f:validateRegex pattern="^\s*(3[01]|[12][0-9]|0[1-9])\.(1[012]|0[1-9])\.((?:19|20)\d{2})\s*$" />
+                                            </h:inputText>
+
+                                        </div>
+                                        <br/>  
+                                        <h:inputSecret p:required="required" p:placeholder="Şifre"  p:title="Şifrenizi giriniz." class="form-control form-control-lg inputs" autocomplete="off" value="#{userBean.password}"/><br/>
+
+                                        <div class="d-grid gap-2">
+                                            <h:commandButton class="btn btn-primary" id="registerBtn" value="Kayıt Ol" action="#{userBean.register()}"></h:commandButton>
+                                        </div>
+
+
+                                    </h:form>
+
+                                </div>
+
+                            </div>
+                        </div>          
+                        <div class="d-flex justify-content-center align-content-center">
+                            <a class="link-info justify-content-center align-items-center" href="login.xhtml" style="margin-top: 5%;text-decoration:none;color:#0072EC;font-weight: bold;"> Zaten kayıtlı mısınız? Giriş yapın.</a>
+                        </div>
+                    </div>
+                </div>   
+
+            </div>
+            <div class="d-flex flex-column justify-content-center" style="width:100%;align-items: center">
+                <h:message for="mail" class="alert alert-danger" style = "margin-top:10px;padding:10px;width:85%; text-align:center" />
+                <h:message for="date" class="alert alert-danger" style = "margin-top:10px;padding:10px;width:85%;text-align: center" />
+                <c:if test="#{userBean.success eq 4}">
+                    #{userBean.setSuccess(3)}
+                    <div class="alert alert-danger" style = "margin-top:10px;padding:10px;width:85%; text-align:center">
+                        Bu e-posta adresi zaten kayıtlı!
+                    </div>
+                    
+                </c:if>
+            </div>
+
+        </div>
+
+        <script src="resources/js/bootstrap.bundle.min.js"/>
+        <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+    </h:body>
+</html>
+
