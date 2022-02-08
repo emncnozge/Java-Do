@@ -1,6 +1,6 @@
 # :coffee: Java-Do  :ledger:
 
-**Java-Do** *JSF, GlassFish, XHTML, CSS ve JavaScript*  kullanılarak hazırlanmış bir not defteri sistemidir.
+**Java-Do** *Java, JavaServer Faces, GlassFish, SQL, XHTML, CSS, Bootstrap ve JavaScript*  kullanılarak hazırlanmış bir not defteri sistemidir.
 Kullanıma başlamak için *Java-Do DB.sql*  dosyası ile database tabloları oluşturularak koddaki database bilgileri düzenlenmelidir.
 
 ## Masaüstü Görünüm :desktop_computer: :computer:
